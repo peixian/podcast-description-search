@@ -1,0 +1,54 @@
+* iTunes Feed to Pandas Script
+
+Takes an itunes feed, optionally a string to match and grabs the itunes compatible xml and turns it into a pandas dataframe. Can also dump the file to a csv.
+
+** Usage
+   #+begin_src text
+     usage: search.py [-h] [-q QUERY] [-o OUT] itunes_url
+
+     Takes in an itunes podcast id, searches for a specific string, also dumps all the shows to a csv.
+
+     positional arguments:
+     itunes_url            URL from itunes for podcast
+
+     optional arguments:
+     -h, --help            show this help message and exit
+     -q QUERY, --query QUERY
+     Specific string to search for. This is quite dumb so the csv with a more complex engine might be better
+     -o OUT, --out OUT     Path to dump the results to a csv
+   #+end_src
+
+** Example
+
+*** Default
+    #+begin_src sh
+      ./search.py https://podcasts.apple.com/us/podcast/the-lebanese-politics-podcast/id1372783898
+    #+end_src
+
+    returns
+
+    #+begin_src text
+      Feed URL: http://feeds.soundcloud.com/users/soundcloud:users:433519281/sounds.rss
+                                         guid                                              title  ... enclosure image
+      0  tag:soundcloud,2010:tracks/812802808  episode 79 - government's plan for economic re...  ...      none  none
+      1  tag:soundcloud,2010:tracks/807625039                 episode 78 - bdl & monetary policy  ...      none  none
+      2  tag:soundcloud,2010:tracks/791460253           episode 77 - lirafication in slow motion  ...      none  none
+      3  tag:soundcloud,2010:tracks/786013177                episode 76 - lebanon in lockdown ii  ...      none  none
+      4  tag:soundcloud,2010:tracks/780848920                   episode 75 - lebanon in lockdown  ...      none  none
+    #+end_src
+
+*** Query
+    #+begin_src sh
+      ./search.py https://podcasts.apple.com/us/podcast/the-lebanese-politics-podcast/id1372783898 -q trash
+    #+end_src
+
+    returns
+
+    #+begin_src text
+      Feed URL: http://feeds.soundcloud.com/users/soundcloud:users:433519281/sounds.rss
+                                          guid                                      title  ... enclosure image
+      25  tag:soundcloud,2010:tracks/678095853  episode 54 - when drones and ratings fall  ...      none  none
+      67  tag:soundcloud,2010:tracks/468894144            episode 12 - coastal properties  ...      none  none
+
+      [2 rows x 12 columns]
+    #+end_src
